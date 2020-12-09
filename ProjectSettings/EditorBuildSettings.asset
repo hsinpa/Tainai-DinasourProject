@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Hsinpa/Scene/DinosaurRepairPlayground.unity
+    guid: 08708d97c40572944bcd3302349f215b
+  m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: c0e7dea4f757a2a4388ec55616a5e01d,
+      type: 2}
+    UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: d47a29e480e46f445a1bf2ad75d6d608,
+      type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: f8006073ff78cfc4794a2cc580258959,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: a94df5bdc140aeb4186809c27d879d15,
+      type: 2}
