@@ -8,11 +8,13 @@ using UnityEngine.InputSystem.Utilities;
 public class InputEditRotate
 { 
     private GameObject targetObject;
+    private DetectTouchMovement _detectTouchMovement;
     Vector3 lastStandPoint;
+
 
     public InputEditRotate()
     {
-
+        _detectTouchMovement = new DetectTouchMovement();
     }
 
     public void SetUp(GameObject targetObject)
@@ -23,9 +25,15 @@ public class InputEditRotate
     #region Device Input Handler
     public void OnUpdate(ReadOnlyArray<STouch.Touch> touches, int touchCount)
     {
-        Debug.Log(touchCount);
-        if (touchCount == 2) { 
-            
+        _detectTouchMovement.Calculate(touches, touchCount);
+
+        if (Mathf.Abs(_detectTouchMovement.turnAngleDelta) > 0)
+        { // rotate
+            Quaternion desiredRotation = targetObject.transform.rotation;
+            Vector3 rotationDeg = Vector3.zero;
+            rotationDeg.y = - _detectTouchMovement.turnAngleDelta;
+            desiredRotation *= Quaternion.Euler(rotationDeg);
+            targetObject.transform.rotation = desiredRotation;
         }
     }
 

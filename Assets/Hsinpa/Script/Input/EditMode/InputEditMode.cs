@@ -16,29 +16,40 @@ namespace LightHouse.Edit {
 
         InputEditTranslate _inputEditTranslate;
         InputEditRotate _inputEditRotate;
+        InputEditRotateDesktop _inputEditRotateDesktop;
 
         public void SetUp(Camera p_camera)
         {
             _mode = Mode.Idle;
             _inputEditTranslate = new InputEditTranslate();
             _inputEditRotate = new InputEditRotate();
+            _inputEditRotateDesktop = new InputEditRotateDesktop();
+
         }
 
         public void SetTargetAnchor(GameObject p_targetAnchor) {
-            _mode = Mode.Rotation;
             this._targetObject = p_targetAnchor;
 
             _inputEditTranslate.SetUp(p_targetAnchor);
             _inputEditRotate.SetUp(p_targetAnchor);
+            _inputEditRotateDesktop.SetUp(p_targetAnchor);
         }
 
         public void OnUpdate(ReadOnlyArray<STouch.Touch> touches, int touchCount)
         {
-            if (_mode == Mode.Translate)
+            if (touchCount == 1)
+            {
                 _inputEditTranslate.OnUpdate();
-
-            if (_mode == Mode.Rotation)
+            }
+#if UNITY_EDITOR
+            else {
+                _inputEditRotateDesktop.OnUpdate();
+            }
+#else
+            else if (touchCount >= 2) {
                 _inputEditRotate.OnUpdate(touches, touchCount);
+            }
+#endif
         }
 
 

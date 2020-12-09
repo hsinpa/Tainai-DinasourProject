@@ -67,13 +67,19 @@ namespace Hsinpa.GameInput
                 int touchCount = touches.Count;
 
                 //UI AND ARPLANE Detection
-                if (UnityEngine.Input.GetMouseButtonDown(0) && touchCount == 1 && CheckIsDoubleTabActivate())
+                if ((UnityEngine.Input.GetMouseButtonDown(0) || 
+                    (touchCount == 1 && touches[0].phase == UnityEngine.InputSystem.TouchPhase.Began)) && 
+                    CheckIsDoubleTabActivate())
                 {
+
+                    Debug.Log("Double click");
                     _inputStruct.raycastPosition = Vector3.zero;
                     _inputStruct.inputType = InputType.DoubleTap;
 
                     if (OnInputEvent != null)
                         OnInputEvent(_inputStruct);
+
+                    selectedAnchor = null;
                     return;
                 }
 
