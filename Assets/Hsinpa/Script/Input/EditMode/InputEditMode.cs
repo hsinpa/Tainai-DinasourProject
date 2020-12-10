@@ -37,15 +37,14 @@ namespace LightHouse.Edit {
 
         public void OnUpdate(ReadOnlyArray<STouch.Touch> touches, int touchCount)
         {
+#if UNITY_EDITOR
+            _inputEditTranslate.OnUpdate();
+            _inputEditRotateDesktop.OnUpdate();
+#else
             if (touchCount == 1)
             {
                 _inputEditTranslate.OnUpdate();
             }
-#if UNITY_EDITOR
-            else {
-                _inputEditRotateDesktop.OnUpdate();
-            }
-#else
             else if (touchCount >= 2) {
                 _inputEditRotate.OnUpdate(touches, touchCount);
             }

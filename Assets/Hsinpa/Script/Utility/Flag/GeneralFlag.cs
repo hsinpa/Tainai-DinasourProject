@@ -9,8 +9,18 @@ public class GeneralFlag
         public const int ARDetectable = 1 << 21;
     }
 
+    public class MatPropertyName {
+        public const string Color = "_BaseColor";
+    }
+
     public enum AnchorType { 
         Position,
         Text
+    }
+
+    public enum BoneType { 
+        Idle,
+        Selected,
+        Locked
     }
 }

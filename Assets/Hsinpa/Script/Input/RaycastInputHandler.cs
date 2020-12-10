@@ -78,8 +78,6 @@ namespace Hsinpa.GameInput
 
                     if (OnInputEvent != null)
                         OnInputEvent(_inputStruct);
-
-                    selectedAnchor = null;
                     return;
                 }
 
@@ -95,7 +93,6 @@ namespace Hsinpa.GameInput
                 if (selectedAnchor != null) {
 
                     Debug.Log("Hit on anchor");
-                    selectedAnchor.name = UtilityMethod.GetRandomIDString();
                     _lightHouseEditMode.SetTargetAnchor(selectedAnchor);
                     return;
                 }
@@ -154,6 +151,7 @@ namespace Hsinpa.GameInput
             if (hitCount > 0) {
                 _inputStruct.inputType = InputType.SingleTap;
                 _inputStruct.raycastPosition = anchorHits[0].point;
+                _inputStruct.gameObject = anchorHits[0].collider.gameObject;
             }
 #else
             arRaycastResults.Clear();
@@ -161,6 +159,7 @@ namespace Hsinpa.GameInput
             if (hasHit) {
                 _inputStruct.inputType = InputType.SingleTap;
                 _inputStruct.raycastPosition = arRaycastResults[0].pose.position;
+                _inputStruct.gameObject = arRaycastResults[0].trackable.gameObject;
             }
 #endif
 
@@ -184,11 +183,13 @@ namespace Hsinpa.GameInput
         {
             public Vector3 raycastPosition;
             public RaycastInputHandler.InputType inputType;
+            public GameObject gameObject;
 
-            public InputStruct(Vector3 p_pos, RaycastInputHandler.InputType p_inputType)
+            public InputStruct(Vector3 p_pos, RaycastInputHandler.InputType p_inputType, GameObject p_gameObject)
             {
                 this.raycastPosition = p_pos;
                 this.inputType = p_inputType;
+                this.gameObject = p_gameObject;
             }
         }
     }
