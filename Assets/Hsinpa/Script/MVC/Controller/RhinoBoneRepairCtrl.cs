@@ -23,8 +23,8 @@ namespace Hsinpa.Ctrl {
         [SerializeField, Range(0, 3)]
         private float _distThreshold;
 
-        [SerializeField]
         private BoneARItem selectedARItem;
+        private BoneARItem targetARItem;
 
         public bool isActivate = false;
 
@@ -44,6 +44,7 @@ namespace Hsinpa.Ctrl {
 
         public void Initialization() {
             correctBoneTemplate.SetUp();
+            correctBoneTemplate.SetColorAllBones(GeneralFlag.BoneType.TemplateIdle, colorLookupTable.GetColor(GeneralFlag.BoneType.TemplateIdle).color);
             _raycastInputHandler.OnInputEvent += OnRaycastInputEvent;
         }
 
@@ -61,19 +62,36 @@ namespace Hsinpa.Ctrl {
                     break;
                 case RaycastInputHandler.InputType.DoubleTap:
                     {
-                        OnDoubleTap(inputStruct.gameObject);
+                        OnDoubleTap();
                     }
                     break;
             }
         }
 
-        private void OnSingleTap(GameObject gameObject) { 
-        
+        private void OnSingleTap(GameObject gameObject) {
+            selectedARItem = gameObject.GetComponent<BoneARItem>();
+
+            if (selectedARItem != null) {
+                selectedARItem.boneType = GeneralFlag.BoneType.Selected;
+                selectedARItem.SetColor(colorLookupTable.GetColor(GeneralFlag.BoneType.Selected).color);
+
+                targetARItem = correctBoneTemplate.GetItemByName(selectedARItem.name);
+                targetARItem.SetColor(colorLookupTable.GetColor(GeneralFlag.BoneType.TemplateHint).color);
+            }
         }
 
-        private void OnDoubleTap(GameObject gameObject)
+        private void OnDoubleTap()
         {
+            if (selectedARItem == null) return;
+
             _raycastInputHandler.ResetRaycaster();
+
+            if (selectedARItem.boneType != GeneralFlag.BoneType.Locked)
+                selectedARItem.SetColor(colorLookupTable.GetColor(GeneralFlag.BoneType.Idle).color);
+
+            targetARItem.SetColor(colorLookupTable.GetColor(GeneralFlag.BoneType.TemplateIdle).color);
+
+            selectedARItem = null;
         }
 
         private void Update()
@@ -88,9 +106,12 @@ namespace Hsinpa.Ctrl {
 
             if (thresHoldMeet) {
                 selectedARItem.inputTouchable.touchable = false;
+                selectedARItem.boneType = GeneralFlag.BoneType.Locked;
                 selectedARItem.SetColor(colorLookupTable.GetColor(GeneralFlag.BoneType.Locked).color);
                 selectedARItem.transform.localPosition = targetBone.transform.localPosition;
                 selectedARItem.transform.rotation = targetBone.transform.localRotation;
+
+                OnDoubleTap();
             }
         }
 

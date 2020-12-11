@@ -16,6 +16,15 @@ namespace Hsinpa.View
             _items = GetComponentsInChildren<BoneARItem>().ToList();
         }
 
+        public void SetColorAllBones(GeneralFlag.BoneType p_boneType, Color p_color) {
+            int itemCount = _items.Count;
+
+            for (int i = 0; i < itemCount; i++) {
+                _items[i].boneType = p_boneType;
+                _items[i].SetColor(p_color);
+            }
+        }
+
         public BoneARItem GetItemByName(string p_name)
         {
             int index = _items.FindIndex(x => x.transform.name == p_name);

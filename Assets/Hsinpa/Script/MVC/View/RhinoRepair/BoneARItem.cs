@@ -11,6 +11,8 @@ namespace Hsinpa.View {
         private MaterialPropertyBlock m_PropertyBlock;
         private InputTouchable _inputTouchable;
 
+        public GeneralFlag.BoneType boneType = GeneralFlag.BoneType.Idle;
+
         public InputTouchable inputTouchable
         {
             get

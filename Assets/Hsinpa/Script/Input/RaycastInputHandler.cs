@@ -89,11 +89,18 @@ namespace Hsinpa.GameInput
             if (UnityEngine.Input.GetMouseButtonDown(0))
             {
                 //EXIST AR ANCHOR Detection
-                selectedAnchor = CheckCastOnExistAnchor();
-                if (selectedAnchor != null) {
+                _inputStruct = CheckCastOnExistAnchor();
+                if (_inputStruct.inputType == InputType.SingleTap) {
 
                     Debug.Log("Hit on anchor");
-                    _lightHouseEditMode.SetTargetAnchor(selectedAnchor);
+                    _lightHouseEditMode.SetTargetAnchor(_inputStruct.gameObject);
+
+                    if (OnInputEvent != null)
+                    {
+                        OnInputEvent(_inputStruct);
+                    }
+
+                    selectedAnchor = _inputStruct.gameObject;
                     return;
                 }
 
@@ -166,13 +173,21 @@ namespace Hsinpa.GameInput
             return _inputStruct;
         }
 
-        private GameObject CheckCastOnExistAnchor()
+        private InputStruct CheckCastOnExistAnchor()
         {
             Ray ray = _camera.ScreenPointToRay(UnityEngine.Input.mousePosition);
+            _inputStruct.inputType = InputType.None;
 
             int hitCount = Physics.RaycastNonAlloc(ray, anchorHits, 100, GeneralFlag.Layer.ARDetectable);
 
-            return (hitCount >= 1) ? anchorHits[0].transform.gameObject : null;
+            if (hitCount > 0)
+            {
+                _inputStruct.inputType = InputType.SingleTap;
+                _inputStruct.raycastPosition = anchorHits[0].point;
+                _inputStruct.gameObject = anchorHits[0].collider.gameObject;
+            }
+
+            return _inputStruct;
         }
 
         public void ResetRaycaster() {
