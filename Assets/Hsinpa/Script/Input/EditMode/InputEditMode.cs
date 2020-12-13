@@ -24,7 +24,6 @@ namespace LightHouse.Edit {
             _inputEditTranslate = new InputEditTranslate();
             _inputEditRotate = new InputEditRotate();
             _inputEditRotateDesktop = new InputEditRotateDesktop();
-
         }
 
         public void SetTargetAnchor(GameObject p_targetAnchor) {

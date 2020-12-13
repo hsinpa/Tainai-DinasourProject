@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96cc1d69a8a4704cbe2a2530f22569f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boneType: 0
 --- !u!114 &4483625658729271732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96cc1d69a8a4704cbe2a2530f22569f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boneType: 0
 --- !u!114 &4056182506233261541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96cc1d69a8a4704cbe2a2530f22569f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boneType: 0
 --- !u!114 &4589586669900851024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,6 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96cc1d69a8a4704cbe2a2530f22569f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boneType: 0
 --- !u!114 &5158998347122987393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,7 +511,7 @@ Transform:
   m_GameObject: {fileID: 6784392042209129908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 471439534338773658}
   - {fileID: 469122123738077945}
@@ -531,6 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33bd9359505ff51449079f3545ad42c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  confirmBtn: {fileID: 0}
 --- !u!1 &6972126195220119277
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96cc1d69a8a4704cbe2a2530f22569f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boneType: 0
 --- !u!114 &2848806458249165307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -745,6 +751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96cc1d69a8a4704cbe2a2530f22569f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boneType: 0
 --- !u!114 &861715454944073158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -865,6 +872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96cc1d69a8a4704cbe2a2530f22569f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boneType: 0
 --- !u!114 &4020159096317312754
 MonoBehaviour:
   m_ObjectHideFlags: 0

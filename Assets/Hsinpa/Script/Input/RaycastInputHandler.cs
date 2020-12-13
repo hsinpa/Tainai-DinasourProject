@@ -67,8 +67,13 @@ namespace Hsinpa.GameInput
                 int touchCount = touches.Count;
 
                 //UI AND ARPLANE Detection
-                if ((UnityEngine.Input.GetMouseButtonDown(0) || 
-                    (touchCount == 1 && touches[0].phase == UnityEngine.InputSystem.TouchPhase.Began)) && 
+                if (
+#if UNITY_EDITOR
+                    UnityEngine.Input.GetMouseButtonDown(0)
+#else
+                    UnityEngine.Input.GetMouseButtonDown(0) && (touchCount == 1) 
+#endif
+                    &&
                     CheckIsDoubleTabActivate())
                 {
 
@@ -88,6 +93,12 @@ namespace Hsinpa.GameInput
 
             if (UnityEngine.Input.GetMouseButtonDown(0))
             {
+
+                if (CheckNoUIIsActivate())
+                {
+                    return;
+                }
+
                 //EXIST AR ANCHOR Detection
                 _inputStruct = CheckCastOnExistAnchor();
                 if (_inputStruct.inputType == InputType.SingleTap) {
@@ -104,14 +115,11 @@ namespace Hsinpa.GameInput
                     return;
                 }
 
-                if (CheckNoUIIsActivate())
-                {
-                    return;
-                }
-
                 _inputStruct = CheckPlaneIsCast();
                 if (_inputStruct.inputType == InputType.SingleTap && OnInputEvent != null)
                 {
+                    Debug.Log("Hit on Plane");
+
                     OnInputEvent(_inputStruct);
                 }
             }

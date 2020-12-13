@@ -38,13 +38,13 @@ namespace Utility {
         /// <param name="parent"></param>
         /// <param name="prefab"></param>
         /// <returns></returns>
-        public static GameObject CreateObjectToParent(Transform parent, GameObject prefab) {
+        public static T CreateObjectToParent<T>(Transform parent, GameObject prefab) where T : MonoBehaviour {
             GameObject item = GameObject.Instantiate(prefab);
             item.transform.SetParent(parent);
             item.transform.localScale = Vector3.one;
 			item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 1);
 			item.transform.localPosition = new Vector3( 0, 0, 1);
-            return item;
+            return item.GetComponent<T>();
         }
 
 		public static GameObject FindObject(GameObject parent, string name) {

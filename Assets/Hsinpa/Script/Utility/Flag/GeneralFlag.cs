@@ -7,6 +7,11 @@ public class GeneralFlag
     public class Layer {
         public const int Plane = 1 << 20;
         public const int ARDetectable = 1 << 21;
+        public const int IgnoreRaycast = 1 << 2;
+
+        public const int PlaneInt = 20;
+        public const int ARDetectableInt = 21;
+        public const int IgnoreRaycastInt = 2;
     }
 
     public class MatPropertyName {
@@ -23,6 +28,7 @@ public class GeneralFlag
         Selected,
         Locked,
         TemplateIdle,
-        TemplateHint
+        TemplateHint,
+        TemplateLocked
     }
 }

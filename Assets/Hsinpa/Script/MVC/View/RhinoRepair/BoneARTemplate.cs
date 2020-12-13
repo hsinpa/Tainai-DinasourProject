@@ -2,18 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace Hsinpa.View
 {
     public class BoneARTemplate : MonoBehaviour
     {
+        [SerializeField]
+        private Button confirmBtn;
+
         private List<BoneARItem> _items;
         private Metric _metric;
 
-        public void SetUp()
+        public void SetUp(System.Action OnConfirmBtnClick)
         {
             _metric = new Metric();
             _items = GetComponentsInChildren<BoneARItem>().ToList();
+
+            ShowConfirmBtn(false);
+
+            if (confirmBtn != null && OnConfirmBtnClick != null) {
+                confirmBtn.onClick.RemoveAllListeners();
+                confirmBtn.onClick.AddListener(() => OnConfirmBtnClick());
+            }
+        }
+
+        public void ShowConfirmBtn(bool show)
+        {
+            if (confirmBtn != null)
+                confirmBtn.gameObject.SetActive(show);
         }
 
         public void SetColorAllBones(GeneralFlag.BoneType p_boneType, Color p_color) {
