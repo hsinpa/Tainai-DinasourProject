@@ -78,7 +78,7 @@ namespace Hsinpa.CloudAnchor {
                     await CloudManager.CreateSessionAsync();
 
                     //await CloudManager.StartSessionAsync();
-
+                    
                     platformLocationProvider = new PlatformLocationProvider();
 
                     CloudManager.Session.LocationProvider = platformLocationProvider;
@@ -117,9 +117,9 @@ namespace Hsinpa.CloudAnchor {
         }
 
         private void ConfigureSensors() {
-            platformLocationProvider.Sensors.GeoLocationEnabled = SensorPermissionHelper.HasGeoLocationPermission();
+            //platformLocationProvider.Sensors.GeoLocationEnabled = SensorPermissionHelper.HasGeoLocationPermission();
             platformLocationProvider.Sensors.WifiEnabled = SensorPermissionHelper.HasWifiPermission();
-            platformLocationProvider.Sensors.BluetoothEnabled = SensorPermissionHelper.HasBluetoothPermission();
+            //platformLocationProvider.Sensors.BluetoothEnabled = SensorPermissionHelper.HasBluetoothPermission();
         }
 
         #region Watch Cloud Anchor

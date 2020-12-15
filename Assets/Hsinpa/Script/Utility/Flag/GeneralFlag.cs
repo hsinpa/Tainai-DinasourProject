@@ -14,6 +14,12 @@ public class GeneralFlag
         public const int IgnoreRaycastInt = 2;
     }
 
+    public class MissionID {
+        public const string BoneRepair = "mission.bone_repair";
+        public const string FrontEgg =  "mission.front_egg";
+        public const string LobbyDeer = "mission.lobby_deer";
+    }
+
     public class MatPropertyName {
         public const string Color = "_BaseColor";
     }
@@ -23,7 +29,7 @@ public class GeneralFlag
         Text
     }
 
-    public enum BoneType { 
+    public enum BoneType {
         Idle,
         Selected,
         Locked,

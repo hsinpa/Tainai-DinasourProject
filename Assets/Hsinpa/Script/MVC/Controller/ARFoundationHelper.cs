@@ -42,10 +42,14 @@ namespace Hsinpa.Ctrl
                 arplanes.AddRange(p_arPlanesChangedEventArgs.added);
         }
 
-        public void ActivateFullAR(bool activate) {
+        public void ActivateAR(bool activate) {
             arPoseDriver.enabled = activate;
             _arCamera.enabled = activate;
             _arSession.enabled = activate;
+        }
+
+        public void ActivateFullAR(bool activate) {
+            ActivateAR(activate);
             AcitvateARPlane(activate);
         }
 

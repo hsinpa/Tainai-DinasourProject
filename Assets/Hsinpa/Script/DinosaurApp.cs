@@ -18,10 +18,6 @@ namespace Hsinpa {
 
         private Observer[] observers = new Observer[0];
        
-
-        private int readyPipeline = 0;
-        private int targetReadyPipeline = 2;
-
         private void Awake()
         {
             subject = new Subject();
@@ -52,7 +48,7 @@ namespace Hsinpa {
 
         private void AppStart(bool success)
         {
-            Notify(EventFlag.Event.GameStart);
+            Notify(EventFlag.Event.GameStart, success);
         }
 
         public void Notify(string entity, params object[] objects)

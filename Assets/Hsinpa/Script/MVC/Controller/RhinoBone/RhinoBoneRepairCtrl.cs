@@ -90,10 +90,10 @@ namespace Hsinpa.Ctrl {
 
         private void PerformPlaneARAction()
         {
-            _arHelper.ActivateFullAR(true);
+            _arHelper.AcitvateARPlane(false);
+            _arHelper.ActivateAR(true);
             _rhinoBoneHelper.Clean();
-
-
+            
             spawnCorrectBoneTemplate = _rhinoBoneHelper.CreateBoneTemplate(new Vector3(1000, 500, 0), Quaternion.identity);
             spawnRandomBoneTemplate = _rhinoBoneHelper.CreateBoneRandomSet(spawnCorrectBoneTemplate.transform.position, spawnCorrectBoneTemplate.transform.rotation);
 
