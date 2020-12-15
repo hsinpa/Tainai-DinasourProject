@@ -2,14 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ObserverPattern;
+using System.Threading.Tasks;
+using Hsinpa.CloudAnchor;
+
 namespace Hsinpa {
     public class DinosaurApp : Singleton<DinosaurApp>
     {
+
+        [SerializeField]
+        private LightHouseAnchorManager _lightHouseAnchorManager;
+
         protected DinosaurApp() { } // guarantee this will be always a singleton only - can't use the constructor!
 
         private Subject subject;
 
         private Observer[] observers = new Observer[0];
+       
 
         private int readyPipeline = 0;
         private int targetReadyPipeline = 2;
@@ -18,6 +26,8 @@ namespace Hsinpa {
         {
             subject = new Subject();
 
+            _lightHouseAnchorManager.OnCloudAnchorIsSetUp += OnAzureAnchorIsReady;
+
             RegisterAllController(subject);
 
             Init();
@@ -25,7 +35,19 @@ namespace Hsinpa {
 
         private void Start()
         {
-            AppStart(true);
+
+            StartCoroutine(
+                ARFoundationHelper.AysncCheckARReady( (bool avilable) => {
+
+                    if (avilable)
+                        _lightHouseAnchorManager.SetUp();
+                    else
+                        AppStart(false);
+            }));
+        }
+
+        private void OnAzureAnchorIsReady(bool isReady) {
+            AppStart(isReady);
         }
 
         private void AppStart(bool success)
