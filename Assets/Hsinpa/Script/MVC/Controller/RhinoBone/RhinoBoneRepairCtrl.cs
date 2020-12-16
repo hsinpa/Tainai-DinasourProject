@@ -7,6 +7,7 @@ using UnityEngine.XR.ARFoundation;
 using System.Linq;
 using Hsinpa.Other;
 using UnityEngine.Rendering;
+using Hsinpa.CloudAnchor;
 
 namespace Hsinpa.Ctrl {
 
@@ -17,6 +18,9 @@ namespace Hsinpa.Ctrl {
 
         [SerializeField]
         private ARFoundationHelper _arHelper;
+
+        [SerializeField]
+        private LightHouseAnchorView _lighthouseAnchorView;
 
         [SerializeField]
         private RaycastInputHandler _raycastInputHandler;
@@ -92,6 +96,7 @@ namespace Hsinpa.Ctrl {
         {
             _arHelper.AcitvateARPlane(false);
             _arHelper.ActivateAR(true);
+            _ = _lighthouseAnchorView.StartWatcher(GeneralFlag.MissionID.BoneRepair);
             _rhinoBoneHelper.Clean();
             
             spawnCorrectBoneTemplate = _rhinoBoneHelper.CreateBoneTemplate(new Vector3(1000, 500, 0), Quaternion.identity);

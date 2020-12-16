@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -166,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _worldContainer: {fileID: 1563763798}
   _arHelper: {fileID: 1699931883}
+  _lighthouseAnchorView: {fileID: 1357361703}
   _raycastInputHandler: {fileID: 254266300}
   correctBoneTemplate: {fileID: -857235554823736698, guid: f1bd633f7d83d3642a777cb912505981,
     type: 3}
@@ -990,7 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e52fa640f3142969a338b5e6b0d906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spatialAnchorManager: {fileID: 0}
+  _spatialAnchorManager: {fileID: 1049000106}
   arCamera: {fileID: 955929328}
   _AnchoredObjectPrefab: {fileID: 4068604729576781195, guid: eb29c0fc92312bf44b4bd224bce80b88,
     type: 3}
@@ -1154,9 +1155,58 @@ Transform:
   m_Children:
   - {fileID: 1563763798}
   - {fileID: 6467759516713698966}
+  - {fileID: 1357361702}
   m_Father: {fileID: 683183295}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1357361701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1357361702}
+  - component: {fileID: 1357361703}
+  m_Layer: 0
+  m_Name: Anchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1357361702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357361701}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1306449408}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1357361703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357361701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a637da8bfb428044903345f2ff0758a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightHouseAnchorManager: {fileID: 1049000107}
+  tempAnchorDataSRP: {fileID: 11400000, guid: ac0d86e0450c8df468f5afa3835ef3cd, type: 2}
+  numToMake: 5
+  rangeToSearch: 15
+  anchorWorldHolder: {fileID: 1357361702}
 --- !u!1 &1563763797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1200,6 +1250,7 @@ GameObject:
   - component: {fileID: 1651309122}
   - component: {fileID: 1651309121}
   - component: {fileID: 1651309120}
+  - component: {fileID: 1651309124}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -1263,6 +1314,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1651309124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651309119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728ad7fae8e460a4ba41265c7308d757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AnchorPrefab: {fileID: 0}
 --- !u!1 &1699931880
 GameObject:
   m_ObjectHideFlags: 0

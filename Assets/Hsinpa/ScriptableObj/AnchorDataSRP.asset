@@ -15,7 +15,7 @@ MonoBehaviour:
   anchorSet:
   - _id: mission.bone_repair
     anchors:
-    - _id: anchor_id_here
+    - _id: 787a3f84-e301-4596-b8da-df3f38aa1ea4
       anchorType: 0
   - _id: mission.front_egg
     anchors: []
