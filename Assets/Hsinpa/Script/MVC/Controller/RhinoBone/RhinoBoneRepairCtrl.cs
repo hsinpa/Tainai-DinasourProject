@@ -50,7 +50,7 @@ namespace Hsinpa.Ctrl {
         private RhinoBoneHelper _rhinoBoneHelper;
 
         public GeneralFlag.GeneralState _state = GeneralFlag.GeneralState.Idle;
-        private int waitForSecondPlaneARActivate = 5000;
+        private int waitForSecondPlaneARActivate = 15000;
         #endregion
 
         public override void OnNotify(string p_event, params object[] p_objects)

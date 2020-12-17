@@ -57,10 +57,16 @@ namespace Hsinpa.CloudAnchor
             List<TempAnchorDataSRP.AnchorStruct> anchorStructs = tempAnchorDataSRP.FindAnchorsByMissionID(mission_id);
             string[] criteriaIDs = anchorStructs.Select(x => x._id).ToArray();
 
+            foreach (string cid in criteriaIDs)
+                Debug.Log("Anchor " + cid);
+
             _anchorLocateCriteria = lightHouseAnchorManager.GetAnchorCriteria(criteriaIDs, LocateStrategy.AnyStrategy);
 
-            await lightHouseAnchorManager.CloudManager.StartSessionAsync();
-            
+            if (!lightHouseAnchorManager.CloudManager.IsSessionStarted) {
+                await Task.Delay(2000);
+                await lightHouseAnchorManager.CloudManager.StartSessionAsync();
+            }
+
             _cloudWatcher = lightHouseAnchorManager.CreateWatcher(_anchorLocateCriteria);  
         }
 
@@ -85,10 +91,10 @@ namespace Hsinpa.CloudAnchor
 #if UNITY_ANDROID || UNITY_IOS
                     anchorPose = currentCloudAnchor.GetPose();
 #endif
-                    var spawnObject = lightHouseAnchorManager.SpawnNewAnchoredObject(anchorPose.position, anchorPose.rotation);
-                    LightHouseAnchorMesh anchorMesh = spawnObject.GetComponent<LightHouseAnchorMesh>();
+                    //var spawnObject = lightHouseAnchorManager.SpawnNewAnchoredObject(anchorPose.position, anchorPose.rotation);
+                    //LightHouseAnchorMesh anchorMesh = spawnObject.GetComponent<LightHouseAnchorMesh>();
 
-                    RegisterNewAnchorMesh(anchorMesh);
+                    //RegisterNewAnchorMesh(anchorMesh);
                 });
             }
         }
