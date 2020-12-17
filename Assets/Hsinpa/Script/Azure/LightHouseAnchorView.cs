@@ -28,7 +28,7 @@ namespace Hsinpa.CloudAnchor
         private List<LightHouseAnchorMesh> anchorMeshList = new List<LightHouseAnchorMesh>();
         private List<TempAnchorDataSRP.AnchorStruct> anchorStructs = new List<TempAnchorDataSRP.AnchorStruct>();
 
-        public System.Action<Vector3> OnMainAnchorDetectEvent;
+        public System.Action<Vector3, Quaternion> OnMainAnchorDetectEvent;
 
         private AnchorLocateCriteria _anchorLocateCriteria;
         private CloudSpatialAnchorWatcher _cloudWatcher;
@@ -77,7 +77,7 @@ namespace Hsinpa.CloudAnchor
                     var anchorStruct = anchorStructs.Find(x => x._id == currentCloudAnchor.Identifier);
 
                     if (anchorStruct.anchorType == TempAnchorDataSRP.AnchorType.Main && OnMainAnchorDetectEvent != null) {
-                        OnMainAnchorDetectEvent(anchorPose.position);
+                        OnMainAnchorDetectEvent(anchorPose.position, anchorPose.rotation);
                     }
 
                     anchorFoundLength++;

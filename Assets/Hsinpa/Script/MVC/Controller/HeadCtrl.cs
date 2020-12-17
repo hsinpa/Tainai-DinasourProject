@@ -19,6 +19,7 @@ namespace Hsinpa.Ctrl
                 {
                     ShowSettingModal();
                 } break;
+
             }
         }
 

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using System.Runtime.Remoting.Messaging;
 
 [CreateAssetMenu(fileName = "DinosaurBoneSRP", menuName = "ScriptableObjects/DinosaurBoneSRP", order = 2)]
 public class DinosaurBoneSRP : ScriptableObject

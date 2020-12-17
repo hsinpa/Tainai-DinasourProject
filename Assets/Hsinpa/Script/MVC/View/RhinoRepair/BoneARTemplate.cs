@@ -51,6 +51,17 @@ namespace Hsinpa.View
             return null;
         }
 
+        public bool IsAllMetricMeet() {
+            if (_items == null) return false;
+
+            int boneCount = _items.Count;
+            int lockBoneLength = _items.Count(x => x.boneType == GeneralFlag.BoneType.Locked || x.boneType == GeneralFlag.BoneType.TemplateLocked);
+
+            Debug.Log($"BoneCount {boneCount}, LockBone {lockBoneLength}");
+
+            return boneCount == lockBoneLength;
+        }
+
         public Metric GetBoneMetric(BoneARItem targetBone, BoneARItem compareBone) {
             _metric.distance = Vector3.Distance(targetBone.transform.localPosition, compareBone.transform.localPosition);
 

@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: AnchorDataSRP
   m_EditorClassIdentifier: 
   anchorSet:
-  - _id: mission.bone_repair
+  - _id: mission.home.bone_repair
     anchors:
     - _id: 787a3f84-e301-4596-b8da-df3f38aa1ea4
       anchorType: 0
   - _id: mission.front_egg
     anchors: []
   - _id: mission.lobby_deer
+    anchors: []
+  - _id: mission.htc.bone_repair
     anchors: []

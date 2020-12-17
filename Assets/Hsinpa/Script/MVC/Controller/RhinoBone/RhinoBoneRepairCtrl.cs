@@ -8,11 +8,14 @@ using System.Linq;
 using Hsinpa.Other;
 using UnityEngine.Rendering;
 using Hsinpa.CloudAnchor;
+using System.Threading.Tasks;
 
 namespace Hsinpa.Ctrl {
 
     public class RhinoBoneRepairCtrl : ObserverPattern.Observer
     {
+
+        #region Parameter
         [SerializeField]
         private Transform _worldContainer;
 
@@ -46,7 +49,9 @@ namespace Hsinpa.Ctrl {
         private BoneARItem targetARItem;
         private RhinoBoneHelper _rhinoBoneHelper;
 
-        public bool isActivate = false;
+        public GeneralFlag.GeneralState _state = GeneralFlag.GeneralState.Idle;
+        private int waitForSecondPlaneARActivate = 5000;
+        #endregion
 
         public override void OnNotify(string p_event, params object[] p_objects)
         {
@@ -63,12 +68,6 @@ namespace Hsinpa.Ctrl {
                     PerformPlaneARAction();
                 }
                 break;
-
-                case EventFlag.Event.OnARMode_SpatialAR:
-                {
-
-                }
-                break;
             }
         }
 
@@ -77,9 +76,10 @@ namespace Hsinpa.Ctrl {
             _rhinoBoneHelper = new RhinoBoneHelper(correctBoneTemplate, boneRandomSetSRP, _worldContainer);
             _rhinoBoneHelper.Clean();
             _raycastInputHandler.OnInputEvent += OnRaycastInputEvent;
+            _lighthouseAnchorView.OnMainAnchorDetectEvent += OnAzureAnchorIsFind;
         }
 
-
+#region State => Preparation Mode
         private void PerformNoARAction() {
             _arHelper.ActivateFullAR(false);
             _arHelper.SetARCameraPos(new Vector3(0, 0.8f, 0), Quaternion.Euler(90, 0, 0));
@@ -89,27 +89,47 @@ namespace Hsinpa.Ctrl {
             spawnRandomBoneTemplate = _rhinoBoneHelper.CreateBoneRandomSet(spawnCorrectBoneTemplate.transform.position, spawnCorrectBoneTemplate.transform.rotation);
 
             Initialization();
-            Activate(true);
+            _state = GeneralFlag.GeneralState.UnderGoing;
         }
 
         private void PerformPlaneARAction()
         {
             _arHelper.AcitvateARPlane(false);
             _arHelper.ActivateAR(true);
-            _ = _lighthouseAnchorView.StartWatcher(GeneralFlag.MissionID.BoneRepair);
+            _ = _lighthouseAnchorView.StartWatcher(GeneralFlag.MissionID.BoneRepairHome);
             _rhinoBoneHelper.Clean();
             
             spawnCorrectBoneTemplate = _rhinoBoneHelper.CreateBoneTemplate(new Vector3(1000, 500, 0), Quaternion.identity);
             spawnRandomBoneTemplate = _rhinoBoneHelper.CreateBoneRandomSet(spawnCorrectBoneTemplate.transform.position, spawnCorrectBoneTemplate.transform.rotation);
 
             Initialization();
+            _ = StartPlaneARIfAnchorNotFound(waitForSecondPlaneARActivate);
+            _state = GeneralFlag.GeneralState.Preparation;
         }
 
         private void OnPlaneARReadyClick() {
             _arHelper.AcitvateARPlane(false);
             spawnCorrectBoneTemplate.ShowConfirmBtn(false);
             _rhinoBoneHelper.MoveBoneTemplate(spawnRandomBoneTemplate, spawnCorrectBoneTemplate.transform.position, spawnCorrectBoneTemplate.transform.rotation);
-            Activate(true);
+            _state = GeneralFlag.GeneralState.UnderGoing;
+        }
+
+        private void OnAzureAnchorIsFind(Vector3 anchorPos, Quaternion anchorRot) {
+            if (_state != GeneralFlag.GeneralState.Preparation) return;
+
+            _rhinoBoneHelper.MoveBoneTemplate(spawnCorrectBoneTemplate, anchorPos, anchorRot);
+            _rhinoBoneHelper.MoveBoneTemplate(spawnRandomBoneTemplate, anchorPos, anchorRot);
+
+            _state = GeneralFlag.GeneralState.UnderGoing;
+        }
+
+        private async Task StartPlaneARIfAnchorNotFound(int millisecond) {
+            await Task.Delay(millisecond);
+
+            if (_state == GeneralFlag.GeneralState.Preparation)
+            {
+                _arHelper.AcitvateARPlane(true);
+            }
         }
 
         public void Initialization() {
@@ -120,10 +140,7 @@ namespace Hsinpa.Ctrl {
             spawnRandomBoneTemplate.SetColorAllBones(GeneralFlag.BoneType.Idle, colorLookupTable.GetColor(GeneralFlag.BoneType.Idle).color);
         }
 
-        public void Activate(bool isActivate) {
-            this.isActivate = isActivate;
-        }
-
+#endregion
         private void OnRaycastInputEvent(RaycastInputHandler.InputStruct inputStruct) {
             
             switch (inputStruct.inputType) {
@@ -153,7 +170,7 @@ namespace Hsinpa.Ctrl {
                 return;
             }
 
-            if (inputStruct.gameObject.layer == GeneralFlag.Layer.PlaneInt && !isActivate)
+            if (inputStruct.gameObject.layer == GeneralFlag.Layer.PlaneInt && _state == GeneralFlag.GeneralState.Preparation)
             {
                 Vector3 dir = (inputStruct.raycastPosition - _arHelper.arCamera.transform.position).normalized;
                 dir.y = 0;
@@ -181,7 +198,7 @@ namespace Hsinpa.Ctrl {
 
         private void Update()
         {
-            if (!isActivate || selectedARItem == null) return;
+            if (_state != GeneralFlag.GeneralState.UnderGoing || selectedARItem == null) return;
 
             var targetBone = spawnCorrectBoneTemplate.GetItemByName(selectedARItem.name);
 
@@ -199,8 +216,19 @@ namespace Hsinpa.Ctrl {
                 selectedARItem.transform.localPosition = targetBone.transform.localPosition;
                 selectedARItem.transform.rotation = targetBone.transform.localRotation;
 
+                //Release object and make it lock state
                 OnDoubleTap();
+
+                if (spawnRandomBoneTemplate.IsAllMetricMeet())
+                    DoEndGameAction();
+                
             }
+        }
+
+        private void DoEndGameAction() {
+            _rhinoBoneHelper.Clean();
+            _state = GeneralFlag.GeneralState.Idle;
+            DinosaurApp.Instance.Notify(EventFlag.Event.GameStart);
         }
 
         private bool CheckTargetThreshold(BoneARItem p_targetBone, BoneARItem p_selectedBone) {

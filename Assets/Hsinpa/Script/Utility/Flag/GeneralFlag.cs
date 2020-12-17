@@ -15,9 +15,19 @@ public class GeneralFlag
     }
 
     public class MissionID {
+        public const string BoneRepairHome = "mission.home.bone_repair";
+        public const string BoneRepairHTC = "mission.htc.bone_repair";
         public const string BoneRepair = "mission.bone_repair";
+
         public const string FrontEgg =  "mission.front_egg";
         public const string LobbyDeer = "mission.lobby_deer";
+    }
+
+    public enum GeneralState
+    {
+        Idle,
+        Preparation,
+        UnderGoing
     }
 
     public class MatPropertyName {
@@ -26,6 +36,7 @@ public class GeneralFlag
 
     public enum AnchorType { 
         Position,
+        Support,
         Text
     }
 
