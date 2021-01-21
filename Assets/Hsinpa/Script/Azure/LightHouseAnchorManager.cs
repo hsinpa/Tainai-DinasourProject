@@ -16,9 +16,6 @@ namespace Hsinpa.CloudAnchor {
         public SpatialAnchorManager CloudManager => _spatialAnchorManager;
 
         [SerializeField]
-        private ARCameraManager arCamera;
-
-        [SerializeField]
         private LightHouseAnchorMesh _AnchoredObjectPrefab;
         public LightHouseAnchorMesh AnchoredObjectPrefab => this._AnchoredObjectPrefab;
 

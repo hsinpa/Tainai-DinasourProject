@@ -7,17 +7,18 @@ namespace Hsinpa.Ctrl
 {
     public class ARFoundationHelper : MonoBehaviour
     {
-        [SerializeField]
         private ARSession _arSession;
         public ARSession arSession => _arSession;
 
-        [SerializeField]
         private ARPlaneManager _arPlaneManager;
         public ARPlaneManager arPlaneManager => _arPlaneManager;
 
-        [SerializeField]
         private ARCameraManager _arCamera;
         public ARCameraManager arCamera => _arCamera;
+
+        private ARRaycastManager _arRaycast;
+        public ARRaycastManager arRaycast => _arRaycast;
+
 
         private ARPoseDriver _arPoseDriver;
         public ARPoseDriver arPoseDriver {
@@ -33,6 +34,12 @@ namespace Hsinpa.Ctrl
 
         public void Awake()
         {
+            _arSession = GameObject.FindObjectOfType<ARSession>();
+            _arPlaneManager = GameObject.FindObjectOfType<ARPlaneManager>();
+            _arCamera = GameObject.FindObjectOfType<ARCameraManager>();
+            _arRaycast = _arPlaneManager.GetComponent<ARRaycastManager>();
+
+
             _arPlaneManager.planesChanged += OnARPlaneChange;
         }
 

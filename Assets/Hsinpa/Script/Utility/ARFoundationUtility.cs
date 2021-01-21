@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 namespace Hsinpa {
-    public class ARFoundationHelper
+    public class ARFoundationUtility
     {
 
 		public static IEnumerator AysncCheckARReady(System.Action<bool> hasARAvailable)
@@ -18,7 +18,5 @@ namespace Hsinpa {
 			hasARAvailable(ARSession.state != ARSessionState.Unsupported);
 
 		}
-
-
 	}
 }

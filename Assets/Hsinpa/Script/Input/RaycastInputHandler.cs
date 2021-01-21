@@ -7,16 +7,15 @@ using UnityEngine.XR.ARFoundation;
 using LightHouse.Edit;
 using Utility;
 using UnityEngine.InputSystem.EnhancedTouch;
+using Hsinpa.Ctrl;
 
 namespace Hsinpa.GameInput
 {
     public class RaycastInputHandler : MonoBehaviour
     {
         [SerializeField]
-        private ARRaycastManager arRaycastManager;
+        private ARFoundationHelper arHelper;
 
-        [SerializeField]
-        private ARCameraManager arCamera;
         private Camera _camera;
 
         [SerializeField]
@@ -41,7 +40,7 @@ namespace Hsinpa.GameInput
 
         private void Start()
         {
-            this._camera = arCamera.GetComponent<Camera>();
+            this._camera = arHelper.arCamera.GetComponent<Camera>();
             eventData = new PointerEventData(EventSystem.current);
             _inputStruct = new InputStruct();
             lightHouseEditMode.SetUp(_camera);
@@ -52,7 +51,7 @@ namespace Hsinpa.GameInput
 
         public Quaternion GetFrontQuaternion(Vector3 hitPoint, Vector3 offset)
         {
-            var cameraDir = (arCamera.transform.position - hitPoint).normalized;
+            var cameraDir = (arHelper.arCamera.transform.position - hitPoint).normalized;
             cameraDir.y = 0;
 
             var quaRot = Quaternion.LookRotation(cameraDir);
@@ -170,7 +169,7 @@ namespace Hsinpa.GameInput
             }
 #else
             arRaycastResults.Clear();
-            bool hasHit = arRaycastManager.Raycast(UnityEngine.Input.mousePosition, arRaycastResults, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon);
+            bool hasHit = arHelper.arRaycast.Raycast(UnityEngine.Input.mousePosition, arRaycastResults, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon);
             if (hasHit) {
                 _inputStruct.inputType = InputType.SingleTap;
                 _inputStruct.raycastPosition = arRaycastResults[0].pose.position;

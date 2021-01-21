@@ -12,6 +12,9 @@ namespace Hsinpa {
         [SerializeField]
         private LightHouseAnchorManager _lightHouseAnchorManager;
 
+        [SerializeField]
+        private bool TestMode;
+
         protected DinosaurApp() { } // guarantee this will be always a singleton only - can't use the constructor!
 
         private Subject subject;
@@ -33,7 +36,7 @@ namespace Hsinpa {
         {
 
             StartCoroutine(
-                ARFoundationHelper.AysncCheckARReady( (bool avilable) => {
+                ARFoundationUtility.AysncCheckARReady( (bool avilable) => {
 
                     if (avilable)
                         _lightHouseAnchorManager.SetUp();
@@ -48,7 +51,7 @@ namespace Hsinpa {
 
         private void AppStart(bool success)
         {
-            Notify(EventFlag.Event.GameStart, success);
+            Notify(EventFlag.Event.GameStart, success, TestMode);
         }
 
         public void Notify(string entity, params object[] objects)
